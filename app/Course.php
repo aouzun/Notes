@@ -20,4 +20,7 @@ class Course extends Model
         return !$res->isEmpty();
     }
 
+    public static function findByName($department_id,$course_name){
+        return Course::where('department_id',$department_id)->where('name',$course_name)->first();
+    }
 }

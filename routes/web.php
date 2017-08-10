@@ -22,11 +22,14 @@ Route::get('/register','Controller@registerPage');
 // Cannot add department without authentication.
 Route::get('/add_department','DepartmentController@create')->middleware('auth');
 Route::post('/add_department',["uses" => "DepartmentController@store"])->middleware('auth','logger');
+
 Route::get('/{department}','DepartmentController@show');
 Route::get('/{department}/add_course','CourseController@create')->middleware('auth');
 Route::post('/{department}/add_course','CourseController@store')->middleware('auth','logger');
-Route::get('/{department}/{course}','CourseController@show');
 
+Route::get('/{department}/{course}','CourseController@show');
+Route::get('/{department}/{course}/add_notes','NoteController@create')->middleware('auth');
+Route::post('/{department}/{course}/add_notes','NoteController@store')->middleware('auth');
 Auth::routes();
 
 

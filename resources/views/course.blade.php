@@ -19,7 +19,7 @@
 		<div class = "col-md-1"> 
 			<ul class =" scrollable list-group">
 				<li class = "list-group-item">
-					<a href = "/{{$department}}/{{$course}}/add_note"> Add Note </a>
+					<a href = "/{{$department}}/{{$course}}/add_notes"> Add Notes </a>
 				</li>
 			</ul>
 		</div>

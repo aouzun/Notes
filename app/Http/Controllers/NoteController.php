@@ -4,6 +4,8 @@ namespace Notes\Http\Controllers;
 
 use Notes\Note;
 use Illuminate\Http\Request;
+use Notes\Department;
+use Notes\Course;
 
 class NoteController extends Controller
 {
@@ -22,9 +24,11 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create($_department,$_course){
+        $department = Department::findByName($_department);
+        $course = Course::findByName($department->id,$_course);
+        
+        return view('add_notes',compact(['department','course']));
     }
 
     /**
@@ -33,9 +37,21 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    /*
+        Request type
+        departmentName
+        courseName
+        title
+        file (files from client)
+
+
+
+    */
+
     public function store(Request $request)
     {
-        //
+        dd($request->allFiles());
     }
 
     /**
