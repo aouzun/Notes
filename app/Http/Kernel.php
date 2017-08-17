@@ -57,5 +57,7 @@ class Kernel extends HttpKernel
         'guest' => \Notes\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'logger' => \Notes\Http\Middleware\Logger::class,
+        'filevalidator' => \Notes\Http\Middleware\FileValidator::class,
+        'slug' => \Notes\Http\Middleware\Slug::class,
     ];
 }

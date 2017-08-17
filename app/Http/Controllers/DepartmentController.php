@@ -2,10 +2,14 @@
 
 namespace Notes\Http\Controllers;
 
+use Notes\Http\Middleware\Logger;
 use Notes\Department;
 use Notes\Course;
+use Notes\Follower;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
+use FollowerHelper;
 
 class DepartmentController extends Controller
 {
@@ -26,7 +30,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('add_department');
+        return view('department.add');
     }
 
     /**
@@ -38,18 +42,24 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         // Check if there is a department with the same name
-        if(Department::check($request->input('name'))){
+        if(Department::check($request->input('slug_name'))){
             $error = "Department name already exists sad";
             return view('error',compact('error'));
         }
         else{
-            Storage::disk('local')->makeDirectory($request->input('name'));
+            Storage::disk('public')->makeDirectory($request->input('slug_name'));
             $department = new Department;
             $department->name = $request->input('name');
             $department->info = $request->input('info');
+            $department->slug_name = $request->input('slug_name');
             $department->save();    
             $courses = array();
-            return redirect('/'.$department->name);
+
+            $id = $department->id;
+
+            Logger::handle($request,$id);
+
+            return redirect('/'.$department->slug_name);
         }
     }
 
@@ -68,7 +78,9 @@ class DepartmentController extends Controller
         }
         $department = Department::findByName($department);
         $courses = Course::findByDepartment($department->id);
-        return view('department',compact(['department','courses']));
+        $popular_courses = FollowerHelper::findPopularCourses($department->id);
+        
+        return view('department.show',compact(['department','courses','popular_courses']));
         
     }
 
@@ -78,9 +90,10 @@ class DepartmentController extends Controller
      * @param  \Notes\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit($department)
     {
-        //
+        $department = Department::findByName($department);
+        return view('department.edit',compact('department'));
     }
 
     /**
@@ -90,9 +103,38 @@ class DepartmentController extends Controller
      * @param  \Notes\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $_department)
     {
-        //
+        $new_name = $request->input('name');
+        $new_slug = $request->input('slug_name');
+        if(Department::check($new_slug) && $_department != $new_slug){
+            $error = $new_name . ' already exists.';
+            return view('/error',compact('error'));
+        }
+
+        $department = Department::findByName($_department);
+        $courses = Course::findByDepartment($department->id);
+
+        $flag = ($department->name != $request->input('name'));
+        $old_name = $department->name;
+        $old_path = $department->slug_name;
+        $new_path = $new_slug;
+        $department->name = $new_name;
+        $department->slug_name = $new_slug;
+        $department->info = $request->input('info');
+        $department->save();
+
+
+
+        if($flag){
+            Storage::disk('public')->move($old_path,$new_path);
+        }
+
+        $id = $department->id;
+        Logger::handle($request,$id);
+
+
+        return redirect('/'.$department->slug_name . '/');
     }
 
     /**

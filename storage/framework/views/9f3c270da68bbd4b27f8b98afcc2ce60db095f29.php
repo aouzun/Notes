@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
 
 <div class ="container">
-	<form class = "form-horizontal" method = "POST" action = "/<?php echo e($department->name); ?>/<?php echo e($course->name); ?>/add_notes">
+	<form class = "form-horizontal" method = "POST" action = "/<?php echo e($department->name); ?>/<?php echo e($course->name); ?>/add_notes" enctype = "multipart/form-data">
 		<?php echo e(csrf_field()); ?>	
 		<div class="form-group">
 			<label for="departmentName">Department Name:</label>
@@ -23,7 +23,7 @@
 				<div class = "row">
 					<div class = "col-md-4"> 
 						<label class ="btn btn-default btn-block">
-							Browse <input onchange="foo();" id="fileuploader" name = "file" type="file" style="display: none;" multiple>
+							Browse <input onchange="foo();" id="fileuploader" name = "files[]" type="file"  style="display: none;" multiple>
 						</label>
 					</div>
 					<div class = "col-md-4"> 

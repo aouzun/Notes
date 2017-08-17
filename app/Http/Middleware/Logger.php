@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Notes\Log;
 use Notes\Course;
 use Notes\Department;
+use Notes\Section;
 class Logger
 {
     /**
@@ -16,39 +17,85 @@ class Logger
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public static function handle($request,$id)
     {
-        $operation = $request->input('operation');
-        $changed_d = $request->input('changed_data');
-        if($changed_d == 'department'){
-            if(Department::check($request->input('name'))){
-                return $next($request);
-            }
-        }
-        else if($changed_d == 'course'){
-            $department = Department::findByName($request->input('departmentName'));
-            $name = $request->input('name');
-            if(Course::check($department->id,$name)){
-                return $next($request);
-            }
-        }
-
-        $log = new Log();
+        $operation = $request['operation'];
+        if($operation == 'alter'){
             
-        $log->user_id = Auth::id();
-        $log->operation = $request->input('operation');
-        $log->changed_data = $request->input('changed_data');
-        if($log->changed_data == "course"){
-            $log->new_name = $request->input('departmentName') . '/' . $request->input('name');
+            self::handleAlter($request,$id);
         }
-        else{
-            $log->new_name = $request->input('name');
+        else if($operation == 'add'){
+            self::handleAdd($request,$id);
         }
-        
-        $log->new_text = $request->input('info');
+        else if($operation == 'delete'){
 
+        }
+    }
+
+
+    private static function handleAdd($request,$id){
+        $c_d = $request['changed_data'];
+        
+        // Check duplicate
+        if($c_d == 'department'){
+
+            $dep_name = $request->input('name');
+            $name = $dep_name;
+        }
+        else if($c_d == 'course'){
+            $dep_name = $request->input('departmentName');
+            $crs_name = $request->input('name');
+            $dep = Department::findByName($dep_name);
+            $name = $crs_name;
+        }
+        else if($c_d == 'section'){
+            $dep_name = $request->input('departmentName');
+            $crs_name = $request->input('courseName');
+            $sct_name = $request->input('title');
+            $dep = Department::findByName($dep_name);
+            $crs = Course::findByName($dep->id,$crs_name);
+            $name = $sct_name;
+        }
+        else if($c_d == 'note'){
+            $name = $request['name'];
+            $info = null;
+        }
+        $log = new Log;
+        $info = $request['info'];
+        $log->user_id = Auth::id();
+        $log->operation = 'add';
+        $log->changed_data = $c_d;
+        $log->new_name = $name;
+        $log->new_text = $info;
+        $log->data_id = $id;
+        $log->save();
+        
+    }
+
+    private static function handleAlter($request,$id){
+        $c_d = $request->input('changed_data');
+
+        $old_name = $request->input('old_name');
+        $old_info = $request->input('old_text');
+        $new_name = $request->input('name');
+        $new_info = $request->input('info');
+
+        $log = new Log;
+
+       
+
+        $log->user_id = Auth::id();
+        $log->operation = 'alter';
+        $log->changed_data = $c_d;
+        $log->new_name = $new_name;
+        $log->new_text = $new_info;
+        $log->old_name = $old_name;
+        $log->old_text = $old_info;
+        $log->data_id = $id;
         $log->save();
 
-        return $next($request);
-    }
+
+    }   
+
+
 }

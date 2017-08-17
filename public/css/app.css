@@ -2,13 +2,26 @@
 body{
 	background-color: #d3d3d3;
 }
-ul.scrollable{
-	max-height : 1000px;
+.scrollable{
+	max-height : 800px;
 	overflow : auto;
 }
+
+.scrollable_Y > .row{
+	white-space: nowrap;
+	overflow-x : auto;
+}
+
 li.list-group-item:hover{
 	background-color: #E8E8E8;
 }
+
+
+.scrollable_Y > .row > .col-xs-4{
+	display: inline-block;
+  	float: none;
+}
+
 
 
 /*!

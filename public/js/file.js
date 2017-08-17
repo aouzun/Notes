@@ -2,7 +2,7 @@ var map = new Map();
 count = 0
 function foo(){
 	var fileUploader = document.getElementById('fileuploader').files;
-	var files = document.getElementById('files');
+	var files = document.getElementById('filesBlock');
 
 	for(var i = 0;i < fileUploader.length;++i){
 		var res = map.get(fileUploader[i]);
@@ -26,7 +26,7 @@ function createElements(filename){
 	var inp1 = document.createElement('input');
 	inp1.setAttribute('type','text');
 	inp1.setAttribute('class','form-control');
-	inp1.setAttribute('id','file' + count)
+	inp1.setAttribute('id','files' + count)
 	inp1.setAttribute('readonly','readonly');
 	inp1.setAttribute('name','file' + count);
 	inp1.setAttribute('value',filename);

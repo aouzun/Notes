@@ -6,7 +6,8 @@ use Notes\Note;
 use Illuminate\Http\Request;
 use Notes\Department;
 use Notes\Course;
-
+use Notes\Section;
+use Notes\Http\Controllers\SectionController;
 class NoteController extends Controller
 {
     /**
@@ -24,11 +25,11 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($_department,$_course){
+    public function create($_department,$_course,$_section){
         $department = Department::findByName($_department);
         $course = Course::findByName($department->id,$_course);
-        
-        return view('add_notes',compact(['department','course']));
+        $section = Section::findByName($course->id,$_section);
+        return view('section.add_note',compact(['department','course','section']));
     }
 
     /**
@@ -44,14 +45,22 @@ class NoteController extends Controller
         courseName
         title
         file (files from client)
-
-
-
     */
 
     public function store(Request $request)
     {
-        dd($request->allFiles());
+        $section_id = $request->input('id');
+        $files = $request->allFiles();
+        SectionController::addNotes($section_id,$files);
+
+
+        $section = Section::find($section_id);
+        $course = Course::find($section->course_id);
+        $department = Department::find($course->department_id);
+
+        $path = '/' . $department->slug_name . '/' . $course->slug_name . '/' . $section->slug_name . '/';
+
+        return redirect($path);
     }
 
     /**

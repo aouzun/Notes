@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-    
+
+	protected $fillable = ['name','info'];    
     public static function check($department){
-    	$res = Department::where('name','=',$department)->get();
+    	$res = Department::where('slug_name','=',$department)->get();
     	return !$res->isEmpty();
     }
 	
     public static function findByName($department){
-    	$res = Department::where('name','=',$department)->first();
+    	$res = Department::where('slug_name','=',$department)->first();
     	return $res;
     }
 

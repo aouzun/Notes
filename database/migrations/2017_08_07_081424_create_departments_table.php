@@ -10,7 +10,7 @@ class CreateDepartmentsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *  
      * @return void
      */
     public function up()
@@ -18,6 +18,7 @@ class CreateDepartmentsTable extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
+            $table->text('slug_name');
             $table->text('info')->default('lorem ipsum');
             $table->timestamps();
         });
@@ -32,7 +33,9 @@ class CreateDepartmentsTable extends Migration
     {
         $departments = Department::all();
         foreach ($departments as $dep){
-            Storage::disk('local')->deleteDirectory($dep->name);
+            if(Storage::disk('public')->exists($dep->slug_name)){
+                Storage::disk('public')->deleteDirectory($dep->slug_name);
+            }
         }
         Schema::dropIfExists('departments');
     }
