@@ -43,15 +43,15 @@ class Logger
             $name = $dep_name;
         }
         else if($c_d == 'course'){
-            $dep_name = $request->input('departmentName');
+            $dep_name = $request->input('departmentSlug');
             $crs_name = $request->input('name');
             $dep = Department::findByName($dep_name);
             $name = $crs_name;
         }
         else if($c_d == 'section'){
-            $dep_name = $request->input('departmentName');
-            $crs_name = $request->input('courseName');
-            $sct_name = $request->input('title');
+            $dep_name = $request->input('departmentSlug');
+            $crs_name = $request->input('courseSlug');
+            $sct_name = $request->input('name');
             $dep = Department::findByName($dep_name);
             $crs = Course::findByName($dep->id,$crs_name);
             $name = $sct_name;

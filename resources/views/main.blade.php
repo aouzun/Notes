@@ -11,22 +11,47 @@
 		    </ul>
 	    </div>
 
-	    <div class = "col-md-8 thumbnail scrollable_Y">
-	    	<div> Popular Departments </div>
-	    	<br> 
-	    	<div class = "row" >
-	    		@foreach($popular_departments as $department)
-	    			<div class = "col-xs-4">
-	    				<a href = "/{{$department->slug_name}}">
-	    					{{$department->name}}
-	    				</a>
+
+	    <div class = "col-md-8">
+	    	<div class = "thumbnail">
+	    		<div class ="fixed">
+			    	<div class = "h3"> Popular Departments </div>
+	    		</div>
+	    		<br> 
+	    		<div class ="row">
+	    			<div class = "scrollable_Y">
+	    				@foreach($popular_departments as $department)
+			    			<div class = "col-xs-4">
+			    				<a href = "/{{$department->slug_name}}">
+			    					{{$department->name}}
+			    				</a>
+			    			</div>
+			    		@endforeach
+			    		<br><br>
 	    			</div>
-	    		@endforeach
-	    		<br> <br>
+	    		</div>
 	    	</div>
-
-
+	    	<div class = "thumbnail">
+	    		<div class ="fixed">
+			    	<div class = "h3" > New Departments </div>
+	    		</div>
+	    		<br> 
+	    		<div class ="row">
+	    			<div class = "scrollable_Y">
+	    				@foreach($new_departments as $department)
+			    			<div class = "col-xs-4">
+			    				<a href = "/{{$department->slug_name}}">
+			    					{{$department->name}}
+			    				</a>
+			    			</div>
+			    		@endforeach
+			    		<br><br>
+	    			</div>
+	    		</div>
+	    	</div>
 	    </div>
+
+	    
 	    	
 	    <div class = "col-md-2"> 
 

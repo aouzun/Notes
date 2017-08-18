@@ -3,7 +3,7 @@
 
 <div class = "container">
 
-	<form class = "form-horizontal" method = "POST" action = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}/edit">
+	<form class = "form-horizontal" method = "POST" action = "{{FollowerHelper::findURL_S($section->id)}}edit">
 		{{csrf_field()}}
 		<div class="form-group">
 			<label for="sectionName">Section Name:</label>
@@ -22,7 +22,7 @@
 				<button type="submit" class="col-md-1 btn btn-default btn-block">Submit</button> 
 			</div>
  			<div class = "col-md-3 text-center"> 
- 				<a class = "col-md-1 btn btn-default btn-block" href = "/{{$department->slug_name}}/{{$course->slug_name}}/"> 
+ 				<a class = "col-md-1 btn btn-default btn-block" href = "{{FollowerHelper::findURL_S($section->id)}}/"> 
  					Back
 				</a> 
 				

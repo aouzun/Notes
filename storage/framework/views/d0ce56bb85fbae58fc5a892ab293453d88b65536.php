@@ -11,23 +11,49 @@
 		    </ul>
 	    </div>
 
-	    <div class = "col-md-8 thumbnail scrollable_Y">
-	    	<div> Popular Departments </div>
-	    	<br> 
-	    	<div class = "row" >
-	    		<?php $__currentLoopData = $popular_departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-	    			<div class = "col-xs-4">
-	    				<a href = "/<?php echo e($department->slug_name); ?>">
-	    					<?php echo e($department->name); ?>
 
-	    				</a>
+	    <div class = "col-md-8">
+	    	<div class = "thumbnail">
+	    		<div class ="fixed">
+			    	<div class = "h3"> Popular Departments </div>
+	    		</div>
+	    		<br> 
+	    		<div class ="row">
+	    			<div class = "scrollable_Y">
+	    				<?php $__currentLoopData = $popular_departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			    			<div class = "col-xs-4">
+			    				<a href = "/<?php echo e($department->slug_name); ?>">
+			    					<?php echo e($department->name); ?>
+
+			    				</a>
+			    			</div>
+			    		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+			    		<br><br>
 	    			</div>
-	    		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-	    		<br> <br>
+	    		</div>
 	    	</div>
+	    	<div class = "thumbnail">
+	    		<div class ="fixed">
+			    	<div class = "h3" > New Departments </div>
+	    		</div>
+	    		<br> 
+	    		<div class ="row">
+	    			<div class = "scrollable_Y">
+	    				<?php $__currentLoopData = $new_departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			    			<div class = "col-xs-4">
+			    				<a href = "/<?php echo e($department->slug_name); ?>">
+			    					<?php echo e($department->name); ?>
 
-
+			    				</a>
+			    			</div>
+			    		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+			    		<br><br>
+	    			</div>
+	    		</div>
+	    	</div>
 	    </div>
+
+	    
 	    	
 	    <div class = "col-md-2"> 
 

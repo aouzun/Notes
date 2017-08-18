@@ -15,39 +15,68 @@
 			</ul>
 
 		</div>
-		
-		<div class="col-md-8"> 
-			<div class = "row">
-				<div class = "col-md-12 thumbnail">
-					<div> Department Info </div>
-					<div> {{$department->info}} </div>
-				</div>
-				<div class = "col-md-12 thumbnail">
-					<div> Populer Courses in {{$department->name}} </div>
-					<div class = row>
-						<div class = "col-md-12 scrollable_Y">
-							<div class = "row">
-								@foreach($popular_courses as $course)
-									<div class = "col-xs-4">
-										<a href = "{{ FollowerHelper::findURL_C($course->course_id) }}"> 
-											{{$course->name}}
-										</a>
-									</div>
-								@endforeach
-							</div>
-							<br> <br>
-						</div>
-					</div>
-				</div>
-
+		<div class = "col-md-8">
+			<div class = "thumbnail">
+				<div class = "h3">  Department Info </div>
+				<div> {{$department->info}} </div>
+				<br><br>
+				<div class = "footer"> by {{$user['name']}}</div>
 			</div>
+			@if(count($popular_courses))
+			<div class = "thumbnail">
+	    		<div class ="fixed">
+			    	<div class = "h3"> Popular Courses </div>
+	    		</div>
+	    		<br> 
+	    		<div class ="row">
+	    			<div class = "scrollable_Y">
+	    				@foreach($popular_courses as $course)
+			    			<div class = "col-xs-4">
+			    				<a href = "{{FollowerHelper::findURL_C($course->course_id)}}">
+			    					{{$course->name}}
+			    				</a>
+			    			</div>
+			    		@endforeach
+			    		<br><br>
+	    			</div>
+	    		</div>
+	    	</div>
+	    	@endif
+	    	<div class = "thumbnail">
+	    		<div class ="fixed">
+			    	<div class = "h3"> New Courses </div>
+	    		</div>
+	    		<br> 
+	    		<div class ="row">
+	    			<div class = "scrollable_Y">
+	    				@if(count($new_courses))
+		    				@foreach($new_courses as $course)
+				    			<div class = "col-xs-4">
+				    				<a href = "{{FollowerHelper::findURL_C($course->id)}}">
+				    					{{$course->name}}
+				    				</a>
+				    			</div>
+				    		@endforeach
+				    		<br><br>
+			    		@else
+			    			<div class = "col-xs-4 h4">
+			    				No courses are found. Would you like to <a href = "{{FollowerHelper::findURL_D($department->id)}}add_course"> add course </a> ?
+			    			</div>	
+			    		@endif
+	    			</div>
+	    		</div>
+
+
+	    	</div>
+
 		</div>
+		
 
 		<div class = "col-md-2"> 
 
 	    	<ul class ="scrollable list-group">
 	    		<li class = "list-group-item">
-	    			<button class = "btn-link" id="followbutton" onclick = "sendFollowRequest({{Auth::user()->id}},1,{{$department->id}});">{{FollowerHelper::checkFollowed(1,Auth::user()->id,$department->id)}}</button>
+	    			<button class = "btn-link" id="followbutton" onclick = "sendFollowRequest({{FollowerHelper::getUserID()}},1,{{$department->id}});">{{FollowerHelper::checkFollowed(1,FollowerHelper::getUserID(),$department->id)}}</button>
 				</li>
 	    		<li class = "list-group-item">
 					<a href = "/{{$department->slug_name}}/edit">Edit</a>

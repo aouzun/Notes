@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
 
+use FollowerHelper;
+
 class CourseController extends Controller
 {
     /**
@@ -79,7 +81,10 @@ class CourseController extends Controller
                 $course = Course::findByName($dep->id,$course);
                 $sections = Section::findByCourse($course->id);
                 $department = $dep;
-                return view('course.show',compact(['department','course','sections']));
+
+                $popular_sections = FollowerHelper::findPopularSections($course->id);
+                $new_sections = FollowerHelper::findNewSections($course->id);
+                return view('course.show',compact(['department','course','sections','popular_sections','new_sections']));
             }
             else{
                 $error = $course . " does not exist in " . $department;
@@ -98,7 +103,7 @@ class CourseController extends Controller
      * @param  \Notes\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function edit($_department,$_course,$_section)
+    public function edit($_department,$_course)
     {
         $department = Department::findByName($_department);
         $course = Course::findByName($department->id,$_course);

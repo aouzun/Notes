@@ -27,15 +27,20 @@ class Controller extends BaseController
 
     public function mainPage(){
     	$departments = Department::all();
-      $popular_departments = FollowerHelper::findPopular(1);
-   	 	return view('main',compact(['departments','popular_departments']));
+      $popular_departments = FollowerHelper::findPopularDepartments();
+      $new_departments = FollowerHelper::findNewDepartments();
+   	 	return view('main',compact(['departments','popular_departments','new_departments']));
     }
 
     public function profilePage(){
 
-        $ret = Follower::followedByUser(Auth::user()->id);
+        $ret1 = Follower::followedByUser(Auth::user()->id);
         
-        return view('profile',$ret);
+        $ret2 = FollowerHelper::getCreatedByUser(FollowerHelper::getUserID());
+
+        
+
+        return view('profile',array_merge($ret1,$ret2));
     }
 
     public function follow(Request $request){

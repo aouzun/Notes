@@ -79,8 +79,9 @@ class DepartmentController extends Controller
         $department = Department::findByName($department);
         $courses = Course::findByDepartment($department->id);
         $popular_courses = FollowerHelper::findPopularCourses($department->id);
-        
-        return view('department.show',compact(['department','courses','popular_courses']));
+        $new_courses = FollowerHelper::findNewCourses($department->id);
+        $user = (Department::getCreator($department->id));
+        return view('department.show',compact(['department','courses','popular_courses','new_courses','user']));
         
     }
 

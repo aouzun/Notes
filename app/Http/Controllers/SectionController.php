@@ -124,6 +124,7 @@ class SectionController extends Controller
     public function edit($_department,$_course,$_section)
     {
         $department = Department::findByName($_department);
+        
         $course = Course::findByName($department->id,$_course);
         $section = Section::findByName($course->id,$_section);
         return view('section.edit',compact(['department','course','section']));

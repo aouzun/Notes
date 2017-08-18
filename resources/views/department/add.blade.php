@@ -7,12 +7,12 @@
 
 		<div class="form-group">
 			<label for="departmentName">Department Name:</label>
-			<input type="text" class="form-control" id="name" name = "name">
+			<input type="text" required class="form-control" id="name" name = "name">
 		</div>
 
 		<div class="form-group">
 			<label for="departmentInfo">Info:</label>
-			<textarea class = "form-control" rows = "5" id = "info" name = "info"> </textarea>
+			<textarea class = "form-control" required rows = "5" id = "info" name = "info"> </textarea>
 			
 		</div>
 		<input hidden value="add" name="operation"/>
