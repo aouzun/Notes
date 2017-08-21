@@ -18,4 +18,17 @@ class Section extends Model
 		return Section::where('course_id','=',$course_id)->get();
 	}
 
+	public static function getCreator($section_id){
+        $log = Log::where([['changed_data','=','section'],['data_id','=',$section_id],['operation','=','add']])->get()->first();
+
+        $user = User::find($log->user_id);
+        
+        $ret_val;
+        $ret_val['id'] = $user->id;
+        $ret_val['name'] = $user->name;
+
+        return $ret_val;
+        //dd(Log::where('changed_data','department')->where('data_id',$department_id)->where('operation','add')->get());
+    }
+
 }

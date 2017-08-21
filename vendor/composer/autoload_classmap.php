@@ -1497,6 +1497,7 @@ return array(
     'Notes\\Section' => $baseDir . '/app/Section.php',
     'Notes\\User' => $baseDir . '/app/User.php',
     'Notes\\UserNoteRelation' => $baseDir . '/app/UserNoteRelation.php',
+    'Notes\\Video' => $baseDir . '/app/Video.php',
     'PHPUnit\\Framework\\Assert' => $vendorDir . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
     'PHPUnit\\Framework\\AssertionFailedError' => $vendorDir . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
     'PHPUnit\\Framework\\BaseTestListener' => $vendorDir . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',

@@ -21,6 +21,9 @@ class Department extends Model
     }
 
     public static function getCreator($department_id){
+
+        
+
         $log = Log::where([['changed_data','=','department'],['data_id','=',$department_id],['operation','=','add']])->get()->first();
 
         $user = User::find($log->user_id);

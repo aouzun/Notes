@@ -17,7 +17,9 @@ class CreateNotesTable extends Migration
             $table->increments('id');
             $table->integer('section_id');
             $table->text('name');
+            $table->text('slug_name');
             $table->timestamps();
+
         });
     }
 

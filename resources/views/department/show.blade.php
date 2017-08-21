@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app',['title' => $department->name])
 
 @section('content')
 
@@ -20,7 +20,7 @@
 				<div class = "h3">  Department Info </div>
 				<div> {{$department->info}} </div>
 				<br><br>
-				<div class = "footer"> by {{$user['name']}}</div>
+				<div class = "footer"> by <a href = "{{FollowerHelper::getProfileURL($user['id'])}}"> {{$user['name']}} </a></div>
 			</div>
 			@if(count($popular_courses))
 			<div class = "thumbnail">

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app',['title' => $user_name])
 
 @section('content')
 
@@ -6,6 +6,9 @@
 <div class = "container"> 
 
 	<div class = "row">
+
+		<div class = "col-md-12 h3 text-center"> {{$user_name}} </div>
+
 		@if(count($departments))
 		<div class = "col-md-12 thumbnail">
 			<div class = "row">

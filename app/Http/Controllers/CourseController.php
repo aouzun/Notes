@@ -84,7 +84,9 @@ class CourseController extends Controller
 
                 $popular_sections = FollowerHelper::findPopularSections($course->id);
                 $new_sections = FollowerHelper::findNewSections($course->id);
-                return view('course.show',compact(['department','course','sections','popular_sections','new_sections']));
+
+                $user = Course::getCreator($course->id);
+                return view('course.show',compact(['department','course','sections','popular_sections','new_sections','user']));
             }
             else{
                 $error = $course . " does not exist in " . $department;

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app',['title' => 'Add Notes to ' . $section->name])
 
 @section('content')
 
@@ -6,7 +6,7 @@
 
 	
 
-	<form class = "form-horizontal" method = "POST" action = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}/add_note" enctype = "multipart/form-data">
+	<form class = "form-horizontal" method = "POST" action = "{{FollowerHelper::findURL_S($section->id)}}add_note" enctype = "multipart/form-data">
 		{{ csrf_field() }}	
 
 		<div class = "form-group">

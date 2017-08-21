@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Notes') }}</title>
+    <title> {{$title}} </title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -56,6 +56,11 @@
                                         <a href="{{ route('profile') }}">
                                             Profile
                                         </a>
+
+                                        <a href="{{ route('settings') }}">
+                                            Settings
+                                        </a>
+
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -1768,6 +1768,7 @@ class ComposerStaticInit827e474cc445c2eb3e9e0fe74c6762e3
         'Notes\\Section' => __DIR__ . '/../..' . '/app/Section.php',
         'Notes\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Notes\\UserNoteRelation' => __DIR__ . '/../..' . '/app/UserNoteRelation.php',
+        'Notes\\Video' => __DIR__ . '/../..' . '/app/Video.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
         'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',

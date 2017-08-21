@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    <title><?php echo e(config('app.name', 'Notes')); ?></title>
+    <title> <?php echo e($title); ?> </title>
 
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
@@ -57,6 +57,11 @@
                                         <a href="<?php echo e(route('profile')); ?>">
                                             Profile
                                         </a>
+
+                                        <a href="<?php echo e(route('settings')); ?>">
+                                            Settings
+                                        </a>
+
                                         <a href="<?php echo e(route('logout')); ?>"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

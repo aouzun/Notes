@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Cocur\Slugify\Slugify;
 use Notes\Department;
 use Notes\Follower;
+use Notes\User;
 use FollowerHelper;
 use Auth;
 class Controller extends BaseController
@@ -32,16 +33,19 @@ class Controller extends BaseController
    	 	return view('main',compact(['departments','popular_departments','new_departments']));
     }
 
-    public function profilePage(){
-
-        $ret1 = Follower::followedByUser(Auth::user()->id);
-        
-        $ret2 = FollowerHelper::getCreatedByUser(FollowerHelper::getUserID());
-
-        
-
-        return view('profile',array_merge($ret1,$ret2));
+    public function profilePage(User $user){
+         
+        $ret1 = Follower::followedByUser($user->id);
+        $ret2 = FollowerHelper::getCreatedByUser($user->id);
+        $ret3['user_name'] = $user->name;
+        return view('profile',array_merge($ret1,$ret2,$ret3));
     }
+
+
+    public function myProfilePage(){
+      return self::profilePage(User::find(FollowerHelper::getUserID()));
+    }
+
 
     public function follow(Request $request){
 
@@ -63,4 +67,7 @@ class Controller extends BaseController
        }
     }
 
+    public function settingsPage(){
+
+    }
 }

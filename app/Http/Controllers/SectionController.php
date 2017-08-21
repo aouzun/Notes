@@ -10,6 +10,10 @@ use Notes\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Validator;
+use FollowerHelper;
+use Cocur\Slugify\Slugify;
+
+
 class SectionController extends Controller
 {
     /**
@@ -62,14 +66,24 @@ class SectionController extends Controller
         $course = Course::find($section->course_id);
         $department = Department::find($course->department_id);
 
-
+        $slug = new Slugify();
+        $slug->activateRuleSet('turkish');
         $department = $department->slug_name;
         $course = $course->slug_name;
         foreach($files['files'] as $file){
             $note = new Note();
             $note->name = $file->getClientOriginalName();
+            $index = strrpos($note->name,'.');
+
+            $file_name = substr($note->name,0,$index);
+            $file_name = $slug->slugify($file_name);
+
+            $file_ext = substr($note->name,$index+1);
+
+            $note->slug_name = $file_name . '.' . $file_ext;
+
             $note->section_id = $section->id;
-            $file->storeAs($department.'/'.$course.'/'.$section->slug_name.'/',$file->getClientOriginalName(),['disk' => 'public']);
+            $file->storeAs($department.'/'.$course.'/'.$section->slug_name.'/',$note->slug_name,['disk' => 'public']);
             $note->save();
             $request = ['operation' => 'add', 'changed_data' => 'note', 'name' => $note->name, 'info' => null];
             Logger::handle($request,$note->id);
@@ -99,20 +113,29 @@ class SectionController extends Controller
      */
     public function show($_department,$_course,$_section)
     {
-        $department = Department::findByName($_department);
-        $course = Course::findByName($department->id,$_course);
+        $res = self::check($_department,$_course,$_section);
 
-        $section = Section::findByName($course->id,$_section);
+        if(!$res){
+            $error = "Whoops";
+            return view('error',compact('error'));
+        }
 
         // Find path to load images
-        $file_path = $department->slug_name . '/' . $course->slug_name . '/' . $section->slug_name . '/';
+        $section = $res['section'];
+        $file_path = FollowerHelper::findURL_S($section->id);
 
         $notes = Note::findBySection($section->id);
         $notes_path = [];
         foreach($notes as $note){
-            array_push($notes_path,$file_path . $note->name);
+            array_push($notes_path,$file_path . $note->slug_name);
         }
-        return view('section.show',compact(['department','course','section','notes_path']));
+
+        $user = Section::getCreator($section->id);
+
+        $res['notes_path'] = $notes_path;
+        $res['user'] = $user;
+
+        return view('section.show',$res);
     }
 
     /**
@@ -198,5 +221,57 @@ class SectionController extends Controller
     }
 
 
+    public function show_videos($_department,$_course,$_section){
+        $res = self::check($_department,$_course,$_section);
+
+        if(!$res){
+            $error = "Whoops";
+            return view('error',compact('error'));
+        }
+
+        $videos = [];
+
+        $section = $res['section'];
+
+
+        $user = Section::getCreator($section->id);
+
+        $res['user'] = $user;
+        $res['videos'] = $videos;
+        return view('section.show_videos',$res);
+
+    }
+
+
+    public static function check($_department,$_course,$_section){
+        $department = Department::findByName($_department);
+        if(!$department){
+            return [];
+        }
+
+        $course = Course::findByName($department->id,$_course);
+
+        if(!$course){
+            $error = "Course " . $_course . " does not exist.";
+            return [];
+        }
+        $section = Section::findByName($course->id,$_section);
+
+
+        if(!$section){
+
+            $error = "Section " . $_section . " does not exist";
+            return [];
+        }
+
+
+        return compact(['department','course','section']);
+
+    }
+
+    public function add_video($_department,$_course,$_section){
+
+        
+    }
 
 }

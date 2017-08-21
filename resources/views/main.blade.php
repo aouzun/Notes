@@ -1,4 +1,5 @@
-@extends('layouts.app')	
+@extends('layouts.app',['title' => 'Notes'])
+
 @section('content')
 <div class = "container-fluid"> <p> Departments </p> </div>
 <div class = "container-fluid text-center">

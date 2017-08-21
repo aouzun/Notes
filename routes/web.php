@@ -20,7 +20,14 @@ use Notes\Http\Middleware\Logger;
 Route::get('/',['uses' => 'Controller@mainPage', 'as' => 'main']);
 Route::get('/login','Controller@loginPage');
 Route::get('/register','Controller@registerPage');
-Route::get('/profile',['uses' => 'Controller@profilePage', 'as' => 'profile'])->middleware('auth');
+Route::get('/profile',['uses' => 'Controller@myprofilePage', 'as' => 'profile'])->middleware('auth');
+Route::get('/settings',['uses' => 'Controller@settingsPage', 'as' => 'settings'])->middleware('auth');
+Route::get('/profile/{user}','Controller@profilePage');
+
+
+Auth::routes();
+
+
 Route::post('/follow','Controller@follow')->middleware('auth');
 // Cannot add department without authentication.
 Route::get('/add_department','DepartmentController@create')->middleware('auth');
@@ -42,9 +49,13 @@ Route::get('/{department}/{course}/{section}/edit','SectionController@edit')->mi
 Route::post('/{department}/{course}/{section}/edit','SectionController@update')->middleware('auth','slug');
 Route::get('/{department}/{course}/{section}/add_note','NoteController@create')->middleware('auth');
 Route::post('/{department}/{course}/{section}/add_note','NoteController@store')->middleware('auth');
+Route::get('/{department}/{course}/{section}/videos','SectionController@show_videos');
+Route::get('/{department}/{course}/{section}/add_video','VideoController@create');
 
 
 
-Auth::routes();
+
+
+
 
 

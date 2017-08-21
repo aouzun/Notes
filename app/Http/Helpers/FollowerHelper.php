@@ -105,5 +105,9 @@ class FollowerHelper{
 		return DB::select('select * from (select * from logs where user_id = :user_id and changed_data = "section") as t1 join (select *,id as section_id from sections) as t2 on t1.data_id = t2.id',['user_id' => $user_id]);
 	}
 
+
+	public static function getProfileURL($user_id){
+		return '/profile/' . $user_id;
+	}
 }
 
