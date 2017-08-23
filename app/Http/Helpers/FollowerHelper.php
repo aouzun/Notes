@@ -44,11 +44,13 @@ class FollowerHelper{
 		
 		$first = 'departments';
 		$second = 'departments.id';
-	
-
 		$res == $res->join($first,'followers.followed_id','=',$second)->select(DB::raw('*,count(*) as follower_count'))->take(10);
 		return $res->get();
 	}
+
+    public static function findNewDepartments(){
+        return DB::select('select * from departments order by created_at desc');
+    }
 
 	public static function findPopularCourses($department_id){
 		return DB::select('select * from (select *,id as course_id from courses where department_id = :department_id) as t1 join (select *,count(*) as follower_count,id as _id from followers where type = :type group by followed_id) as t2 on t1.id = t2.followed_id order by follower_count desc ',
@@ -62,9 +64,7 @@ class FollowerHelper{
 	}
 
 
-	public static function findNewDepartments(){
-		return DB::select('select * from departments order by created_at desc');
-	}
+
 
 	public static function findNewCourses($department_id){
 		return DB::select('select * from courses where department_id = :department_id order by created_at desc',['department_id' => $department_id]);

@@ -60,6 +60,12 @@ class Logger
             $name = $request['name'];
             $info = null;
         }
+
+        else if($c_d == 'video'){
+            $name = $request['name'];
+            $info = null;
+        }
+
         $log = new Log;
         $info = $request['info'];
         $log->user_id = Auth::id();

@@ -6,7 +6,7 @@
 
 	
 
-	<form class = "form-horizontal" method = "POST" action = "{{FollowerHelper::findURL_S($section->id)}}add_video" enctype = "multipart/form-data">
+	<form class = "form-horizontal" onsubmit="return validate_url();" method = "POST" action = "{{FollowerHelper::findURL_S($section->id)}}add_video" enctype = "multipart/form-data">
 		{{ csrf_field() }}	
 
 		<div class = "form-group">
@@ -43,16 +43,16 @@
 					<div clsas = "col-md-1"> </div>
 					
 					<div class = "col-md-10">
-						<input type="text" class="form-control" name = "link[]" />
+						<input  required  type="text" class="form-control" name = "link[]" />
 					</div>
 
 
 					<div class = "col-md-1">
-						<input type="button" class="form-control btn btn-default btn-primary" onclick = "addField();" value = "+"/>
+						<input type="button"  class="form-control btn btn-default btn-primary" onclick = "addField();" value = "+"/>
 					</div>
 					<div class = "col-md-1">
 
-						<input type="button" class = "btn btn-default btn-primary" onclick="submitClicked();" value = "Submit"/>
+						<input type="submit" class = "btn btn-default btn-primary" value = "Submit"/>
 					</div>
 
 				</div>
@@ -66,7 +66,7 @@
 		<input hidden name = "sectionSlug" value = "{{$section->slug_name}}" />
 		<input hidden name = "id" value = "{{$section->id}}" />
 		<input hidden value="add" name="operation"/>
-		<input hidden value="note" name = "changed_data" />
+		<input hidden value="video" name = "changed_data" />
 	</form>
 
 </div>

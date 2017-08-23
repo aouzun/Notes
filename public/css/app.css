@@ -28,7 +28,9 @@ li.list-group-item:hover{
 .thumbnail{
 	text-align: center;
 }
-
+.thumbnail:hover{
+	background-color: #E8E8E8;
+}
 
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)

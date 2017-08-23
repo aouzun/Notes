@@ -50,7 +50,8 @@ Route::post('/{department}/{course}/{section}/edit','SectionController@update')-
 Route::get('/{department}/{course}/{section}/add_note','NoteController@create')->middleware('auth');
 Route::post('/{department}/{course}/{section}/add_note','NoteController@store')->middleware('auth');
 Route::get('/{department}/{course}/{section}/videos','SectionController@show_videos');
-Route::get('/{department}/{course}/{section}/add_video','VideoController@create');
+Route::get('/{department}/{course}/{section}/add_video','VideoController@create')->middleware('auth');
+Route::post('/{department}/{course}/{section}/add_video','VideoController@store')->middleware('auth');
 
 
 

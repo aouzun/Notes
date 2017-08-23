@@ -38,12 +38,19 @@
 					</div> 
 
 					<div class = "thumbnail">
-						@if(count($videos))
-
-
-						@else
-							<div class = "h3"> No videos are found. Would you like to <a href = "{{FollowerHelper::findURL_S($section->id)}}add_video"> add video? </a> </div>
-						@endif
+						<div class = "row">
+							@if(count($videos))
+								@foreach($videos as $video)
+									<div class = "col-md-4 col-xs-4">
+										<div class = "h4"> <a href = "https://www.youtube.com/watch?v={{$video->youtube_id}}"> {{$video->name}} </a> </div>
+										<a href = "https://www.youtube.com/watch?v={{$video->youtube_id}}"> <img src = "https://img.youtube.com/vi/{{$video->youtube_id}}/mqdefault.jpg"> </a>
+									</div>
+								@endforeach
+							@else
+								<div class = "h3"> No videos are found. Would you like to <a href = "{{FollowerHelper::findURL_S($section->id)}}add_video"> add video? </a> </div>
+							@endif
+						</div>
+						
 					</div>
 
 					

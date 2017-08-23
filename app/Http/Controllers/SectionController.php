@@ -6,6 +6,7 @@ use Notes\Http\Middleware\Logger;
 use Notes\Section;
 use Notes\Department;
 use Notes\Course;
+use Notes\Video;
 use Notes\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -229,10 +230,10 @@ class SectionController extends Controller
             return view('error',compact('error'));
         }
 
-        $videos = [];
-
         $section = $res['section'];
 
+
+        $videos = Video::findBySection($section->id);
 
         $user = Section::getCreator($section->id);
 
