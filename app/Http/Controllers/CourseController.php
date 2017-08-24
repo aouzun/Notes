@@ -29,10 +29,9 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($department)
+    public function create(Department $department,$name)
     {
-        if(Department::check($department)){
-            $department = Department::findByName($department);
+        if($department){
             return view('course.add',compact('department'));
         }
         else{
@@ -51,7 +50,6 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $department = Department::findByName($request->input('departmentSlug'));
-
         $course_name = $request->input('name');
         $course = new Course;
         $course->name = $course_name;
@@ -63,8 +61,8 @@ class CourseController extends Controller
         // Create a folder in /department_name/ named course_name
         $id = $course->id;
         Logger::handle($request,$id);
-
-        return redirect('/' . $department->slug_name . '/' . $course->slug_name . '/');
+        dd(FollowerHelper::findURL_C($id));
+        return redirect(FollowerHelper::findURL_C($id));
     }
 
     /**
@@ -73,30 +71,17 @@ class CourseController extends Controller
      * @param  \Notes\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function show ($department,$course){
-        $dep = Department::findByName($department);
-        if($dep){
-            $flag = Course::check($dep->id,$course);
-            if($flag){
-                $course = Course::findByName($dep->id,$course);
-                $sections = Section::findByCourse($course->id);
-                $department = $dep;
+    public function show (Course $course,$name){
 
-                $popular_sections = FollowerHelper::findPopularSections($course->id);
-                $new_sections = FollowerHelper::findNewSections($course->id);
+        $department = Department::find($course->department_id);
+        $sections = Section::findByCourse(($course->id));
+        $popular_sections = FollowerHelper::findPopularSections($course->id);
+        $new_sections = FollowerHelper::findNewSections($course->id);
+        $user = Course::getCreator($course->id);
+        return view('course.show',compact(['department','course','sections','popular_sections','new_sections','user']));
 
-                $user = Course::getCreator($course->id);
-                return view('course.show',compact(['department','course','sections','popular_sections','new_sections','user']));
-            }
-            else{
-                $error = $course . " does not exist in " . $department;
-            }
-        }
-        else{
-            $error = "Department " . $department . " does not exist";
-        }
-        return view('error',compact('error'));
-        
+
+
     }
 
     /**
@@ -105,10 +90,9 @@ class CourseController extends Controller
      * @param  \Notes\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function edit($_department,$_course)
+    public function edit(Course $course, $name)
     {
-        $department = Department::findByName($_department);
-        $course = Course::findByName($department->id,$_course);
+        $department = Department::find($course->id);
         return view('course.edit',compact(['department','course']));
     }
 
@@ -119,20 +103,20 @@ class CourseController extends Controller
      * @param  \Notes\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$_department,$_course)
+    public function update(Request $request,Course $course, $name)
     {
         $new_name = $request->input('name');
         $dep_id = $request->input('department_id');
-        if(Course::check($dep_id,$new_name) && $new_name != $_course){
+        if(Course::check($dep_id,$new_name) && $new_name != $name){
             $error = $new_name . ' already exists.';
             return view('/error',compact('error'));
         }
 
-        $flag = ($_course != $request->input('name'));
+        $flag = ($name != $request->input('name'));
 
         
-        $course = Course::findByName($dep_id,$_course);
-        $old_name = $_course;
+        $course = Course::findByName($dep_id,$name);
+        $old_name = $name;
         $new_name = $request->input('name');
 
         $old_text = $course->info;
@@ -158,7 +142,7 @@ class CourseController extends Controller
 
         Logger::handle($request,$id);
 
-        return redirect('/'. $tmp . '/' . $course->slug_name);
+        return redirect(FollowerHelper::findURL_C($course->id));
     }
 
     /**

@@ -6,7 +6,7 @@
 
 	
 
-	<form class = "form-horizontal" method = "POST" action = "/{{$department->slug_name}}/{{$course->slug_name}}/add_section" enctype = "multipart/form-data">
+	<form class = "form-horizontal" method = "POST" action = "{{FollowerHelper::findURL_C($course->id)}}add_section" enctype = "multipart/form-data">
 		{{ csrf_field() }}	
 
 		<div class = "form-group">
@@ -34,11 +34,11 @@
 			<div class = "col-md-5">
 				<div class="form-group">
 					<label for="contentTitle">Section Name: </label>
-					<input type="text" class="form-control" id="titleName" name = "name" />
+					<input required type="text" class="form-control" id="titleName" name = "name" />
 				</div>
 				<div class="form-group">
 					<label for="departmentInfo">Info:</label>
-					<textarea class = "form-control" rows = "5" id = "info" name = "info"> </textarea>
+					<textarea required class = "form-control" rows = "5" id = "info" name = "info"> </textarea>
 				</div>
 				<div class = "form-group">
 				</div>
@@ -52,7 +52,7 @@
 						</label>
 					</div>
 					<div class = "col-md-4">
-						<a class = "btn btn-default btn-block" href = "/{{$department->slug_name}}/{{$course->slug_name}}"> Back </a>
+						<a class = "btn btn-default btn-block" href = "{{FollowerHelper::findURL_C($course->id)}}"> Back </a>
 					</div>
 				</div>
 			</div>	

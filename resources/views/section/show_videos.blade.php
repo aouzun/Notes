@@ -4,11 +4,11 @@
 
 
 <div class = "container-fluid">
-	<p> <a href = "/{{$department->slug_name}}"> {{$department->name}} </a>
+	<p> <a href = "{{FollowerHelper::findURL_D($department->id)}}"> {{$department->name}} </a>
 		&gt
-		<a href = "/{{$department->slug_name}}/{{$course->slug_name}}"> {{$course->name}} </a>
+		<a href = "{{FollowerHelper::findURL_D($course->id)}}"> {{$course->name}} </a>
 		&gt
-		<a href = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}"> {{$section->name}} </a>
+		<a href = "{{FollowerHelper::findURL_D($section->id)}}"> {{$section->name}} </a>
 	 </p>
 </div>
 

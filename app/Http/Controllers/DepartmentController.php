@@ -59,7 +59,7 @@ class DepartmentController extends Controller
 
             Logger::handle($request,$id);
 
-            return redirect('/'.$department->slug_name);
+            return redirect(FollowerHelper::findURL_D($id));
         }
     }
 
@@ -71,18 +71,21 @@ class DepartmentController extends Controller
      */
     
 
-    public function show($department){
-        if(!Department::check($department)){
+    public function show(Department $department,$name)
+    {
+        if(Department::checkName($department,$name)){
+            if($department){
+                $courses = Course::findByDepartment($department->id);
+                $popular_courses = FollowerHelper::findPopularCourses($department->id);
+                $new_courses = FollowerHelper::findNewCourses($department->id);
+                $user = (Department::getCreator($department->id));
+                return view('department.show',compact(['department','courses','popular_courses','new_courses','user']));
+            }
+        }
+        else{
             $error = 'Department not found';
             return view('error',compact('error'));
         }
-        $department = Department::findByName($department);
-        $courses = Course::findByDepartment($department->id);
-        $popular_courses = FollowerHelper::findPopularCourses($department->id);
-        $new_courses = FollowerHelper::findNewCourses($department->id);
-        $user = (Department::getCreator($department->id));
-        return view('department.show',compact(['department','courses','popular_courses','new_courses','user']));
-        
     }
 
     /**
@@ -91,10 +94,15 @@ class DepartmentController extends Controller
      * @param  \Notes\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit($department)
+    public function edit(Department $department,$name)
     {
-        $department = Department::findByName($department);
-        return view('department.edit',compact('department'));
+        if(Department::checkName($department,$name)){
+            return view('department.edit',compact('department'));
+        }
+        else{
+            $error = 'Department not found';
+            return view('error',compact('error'));
+        }
     }
 
     /**
@@ -104,16 +112,16 @@ class DepartmentController extends Controller
      * @param  \Notes\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $_department)
+    public function update(Request $request,Department $department,$name)
     {
+
         $new_name = $request->input('name');
         $new_slug = $request->input('slug_name');
-        if(Department::check($new_slug) && $_department != $new_slug){
+        if(Department::check($new_slug) && $name != $new_slug){
             $error = $new_name . ' already exists.';
             return view('/error',compact('error'));
         }
 
-        $department = Department::findByName($_department);
         $courses = Course::findByDepartment($department->id);
 
         $flag = ($department->name != $request->input('name'));
@@ -135,7 +143,7 @@ class DepartmentController extends Controller
         Logger::handle($request,$id);
 
 
-        return redirect('/'.$department->slug_name . '/');
+        return redirect(FollowerHelper::findURL_D($id));
     }
 
     /**

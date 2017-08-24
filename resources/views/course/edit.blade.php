@@ -3,16 +3,16 @@
 
 <div class = "container">
 
-	<form class = "form-horizontal" method = "POST" action = "/{{$department->slug_name}}/{{$course->slug_name}}/edit">
+	<form class = "form-horizontal" method = "POST" action = "{{FollowerHelper::findURL_C($course->id)}}edit">
 		{{csrf_field()}}
 		<div class="form-group">
 			<label for="departmentName">Course Name:</label>
-			<input type="text" class="form-control" id="courseName" name = "name" value="{{$course->name}}" />
+			<input required type="text" class="form-control" id="courseName" name = "name" value="{{$course->name}}" />
 		</div>
 
 		<div class="form-group">
 			<label for="departmentName">Course Info:</label>
-			<input type="text" class="form-control" id="courseInfo" name = "info" value="{{$course->info}}" />
+			<textarea required class="form-control" id="courseInfo" name = "info">{{$course->info}}</textarea>
 		</div>
 
 		<div class = "form-group row">
@@ -22,7 +22,7 @@
 				<button type="submit" class="col-md-1 btn btn-default btn-block">Submit</button> 
 			</div>
  			<div class = "col-md-3 text-center"> 
- 				<a class = "col-md-1 btn btn-default btn-block" href = "/{{$department->slug_name}}/{{$course->slug_name}}/"> 
+ 				<a class = "col-md-1 btn btn-default btn-block" href = "{{FollowerHelper::findURL_C($course->id)}}">
  					Back
 				</a> 
 				

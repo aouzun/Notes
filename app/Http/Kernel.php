@@ -59,5 +59,6 @@ class Kernel extends HttpKernel
         'logger' => \Notes\Http\Middleware\Logger::class,
         'filevalidator' => \Notes\Http\Middleware\FileValidator::class,
         'slug' => \Notes\Http\Middleware\Slug::class,
+        'checkURL' => \Notes\Http\Middleware\CheckURL::class,
     ];
 }

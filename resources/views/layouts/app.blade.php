@@ -57,9 +57,7 @@
                                             Profile
                                         </a>
 
-                                        <a href="{{ route('settings') }}">
-                                            Settings
-                                        </a>
+
 
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

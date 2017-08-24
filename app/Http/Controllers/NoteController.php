@@ -25,10 +25,9 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($_department,$_course,$_section){
-        $department = Department::findByName($_department);
-        $course = Course::findByName($department->id,$_course);
-        $section = Section::findByName($course->id,$_section);
+    public function create(Section $section,$name){
+        $course = Course::find($section->course_id);
+        $department = Department::find($course->department_id);
         return view('section.add_note',compact(['department','course','section']));
     }
 
@@ -47,20 +46,20 @@ class NoteController extends Controller
         file (files from client)
     */
 
-    public function store(Request $request)
+    public function store(Request $request,Section $section,$name)
     {
         $section_id = $request->input('id');
         $files = $request->allFiles();
         SectionController::addNotes($section_id,$files);
 
 
-        $section = Section::find($section_id);
+
         $course = Course::find($section->course_id);
         $department = Department::find($course->department_id);
 
         $path = '/' . $department->slug_name . '/' . $course->slug_name . '/' . $section->slug_name . '/';
 
-        return redirect($path);
+        return redirect(FollowerHelper::findURL_S($section->id));
     }
 
     /**

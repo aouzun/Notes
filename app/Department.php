@@ -36,4 +36,9 @@ class Department extends Model
         //dd(Log::where('changed_data','department')->where('data_id',$department_id)->where('operation','add')->get());
     }
 
+    public static function checkName(Department $department,$name){
+        return $department->slug_name == $name;
+    }
+
+
 }

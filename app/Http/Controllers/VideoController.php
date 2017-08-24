@@ -28,11 +28,10 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($_department,$_course,$_section)
+    public function create(Section $section,$name)
     {
-        $department = Department::findByName($_department);
-        $course = Course::findByName($department->id,$_course);
-        $section = Section::findByName($course->id,$_section);
+        $course = Course::find($section->course_id);
+        $department = Department::find($course->department_id);
 /*
         $video_id = "cT9EFRd4LBw";
 
@@ -78,7 +77,7 @@ class VideoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Section $section,$name)
     {
 
         foreach($request->input('link') as $link){

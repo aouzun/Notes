@@ -31,7 +31,7 @@
 			@if(count($popular_sections))
 			<div class = "thumbnail">
 	    		<div class ="fixed">
-			    	<div class = "h3"> Popular Section </div>
+			    	<div class = "h3"> Popular Sections </div>
 	    		</div>
 	    		<br> 
 	    		<div class ="row">
@@ -50,7 +50,7 @@
 	    	@endif
 	    	<div class = "thumbnail">
 	    		<div class ="fixed">
-			    	<div class = "h3"> New Section </div>
+			    	<div class = "h3"> New Sections </div>
 	    		</div>
 	    		<br> 
 	    		<div class ="row">

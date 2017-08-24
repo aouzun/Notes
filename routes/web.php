@@ -20,43 +20,54 @@ use Notes\Http\Middleware\Logger;
 Route::get('/',['uses' => 'Controller@mainPage', 'as' => 'main']);
 Route::get('/login','Controller@loginPage');
 Route::get('/register','Controller@registerPage');
-Route::get('/profile',['uses' => 'Controller@myprofilePage', 'as' => 'profile'])->middleware('auth');
-Route::get('/settings',['uses' => 'Controller@settingsPage', 'as' => 'settings'])->middleware('auth');
-Route::get('/profile/{user}','Controller@profilePage');
-
+Route::get('/profile',['uses' => 'Controller@myProfilePage', 'as' => 'profile'])->middleware('auth');
+Route::get('/user/{user}','Controller@profilePage');
+Route::post('/follow','Controller@follow')->middleware('auth');
 
 Auth::routes();
+/*
 
 
-Route::post('/follow','Controller@follow')->middleware('auth');
-// Cannot add department without authentication.
-Route::get('/add_department','DepartmentController@create')->middleware('auth');
-Route::post('/add_department',["uses" => "DepartmentController@store"])->middleware('auth','slug');
 
-Route::get('/{department}','DepartmentController@show');
-Route::get('/{department}/edit','DepartmentController@edit')->middleware('auth');
-Route::post('/{department}/edit','DepartmentController@update')->middleware('auth','slug');
 
-Route::get('/{department}/add_course','CourseController@create')->middleware('auth');
-Route::post('/{department}/add_course','CourseController@store')->middleware('auth','slug');
-Route::get('/{department}/{course}','CourseController@show');
-Route::get('/{department}/{course}/edit','CourseController@edit')->middleware('auth');
-Route::post('/{department}/{course}/edit','CourseController@update')->middleware('auth','slug');
-Route::get('/{department}/{course}/add_section','SectionController@create')->middleware('auth');
-Route::post('/{department}/{course}/add_section','SectionController@store')->middleware('auth','filevalidator','slug');
-Route::get('/{department}/{course}/{section}','SectionController@show');
-Route::get('/{department}/{course}/{section}/edit','SectionController@edit')->middleware('auth');
-Route::post('/{department}/{course}/{section}/edit','SectionController@update')->middleware('auth','slug');
-Route::get('/{department}/{course}/{section}/add_note','NoteController@create')->middleware('auth');
-Route::post('/{department}/{course}/{section}/add_note','NoteController@store')->middleware('auth');
+
+
 Route::get('/{department}/{course}/{section}/videos','SectionController@show_videos');
 Route::get('/{department}/{course}/{section}/add_video','VideoController@create')->middleware('auth');
 Route::post('/{department}/{course}/{section}/add_video','VideoController@store')->middleware('auth');
 
 
 
+*/
+Route::get('/add_department','DepartmentController@create')->middleware('auth');
+Route::post('/add_department','DepartmentController@store')->middleware('auth','slug');
+
+Route::get('/d/{department}-{name}','DepartmentController@show')->middleware('checkURL');
+Route::get('/d/{department}-{name}/edit','DepartmentController@edit')->middleware('auth');
+Route::get('/d/{department}-{name}/add_course','CourseController@create')->middleware('auth');
 
 
+Route::get('/c/{course}-{name}','CourseController@show');
+Route::get('/c/{course}-{name}/edit','CourseController@edit')->middleware('auth');
+Route::get('/c/{course}-{name}/add_section','SectionController@create')->middleware('auth');
+
+Route::get('/s/{section}-{name}','SectionController@show');
+Route::get('/s/{section}-{name}/edit','SectionController@edit')->middleware('auth');
+Route::get('/s/{section}-{name}/add_note','NoteController@create')->middleware('auth');
+
+Route::get('/s/{section}-{name}/videos','SectionController@show_videos');
+Route::get('/s/{section}-{name}/add_video','VideoController@create')->middleware('auth');
+
+Route::post('/d/{department}-{name}/edit','DepartmentController@update')->middleware('auth','slug');
+Route::post('/d/{department}-{name}/add_course','CourseController@store')->middleware('auth','slug');
+Route::post('/c/{course}-{name}/edit','CourseController@update')->middleware('auth','slug');
+Route::post('/c/{course}-{name}/add_section','SectionController@store')->middleware('auth','filevalidator','slug');
+Route::post('/s/{section}-{name}/edit','SectionController@update')->middleware('auth','slug');
+Route::post('/s/{section}-{name}/add_note','NoteController@store')->middleware('auth');
+Route::post('/s/{section}-{name}/add_video','VideoController@store')->middleware('auth');
 
 
-
+Route::get('*',function(){
+    $error = "asd";
+    return view('error',compact('error'));
+});

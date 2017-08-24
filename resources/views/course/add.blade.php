@@ -2,7 +2,7 @@
 @section('content')
 
 <div class ="container">
-	<form class = "form-horizontal" method = "POST" action = "/{{$department->slug_name}}/add_course">
+	<form class = "form-horizontal" method = "POST" action = "{{FollowerHelper::findURL_D($department->id)}}add_course">
 		{{ csrf_field() }}	
 
 		<div class = "form-group">
@@ -12,12 +12,12 @@
 
 		<div class="form-group">
 			<label for="courseName">Course Name:</label>
-			<input type="text" class="form-control" id="name" name = "name">
+			<input required type="text" class="form-control" id="name" name = "name">
 		</div>
 
 		<div class="form-group">
 			<label for="departmentInfo">Info:</label>
-			<textarea class = "form-control" rows = "5" id = "info" name = "info"> </textarea>
+			<textarea required class = "form-control" rows = "5" id = "info" name = "info"> </textarea>
 			
 		</div>
 		<input hidden value="add" name="operation"/>

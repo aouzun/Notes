@@ -4,16 +4,16 @@
 <div class = "container-fluid"> <p> Departments </p> </div>
 <div class = "container-fluid text-center">
 	<div class = "row">
-		<div class = "col-md-2">
+		<div class = "col-md-2 col-xs-12">
 		    <ul  class="scrollable list-group">
 		        @foreach ($departments as $dep)
-		        <li class="list-group-item"> <a href="/{{ $dep->slug_name }}/"> {{$dep->name}} </a> </li>
+		        <li class="list-group-item"> <a href="{{FollowerHelper::findURL_D($dep->id)}}"> {{$dep->name}} </a> </li>
 		        @endforeach
 		    </ul>
 	    </div>
 
 
-	    <div class = "col-md-8">
+	    <div class = "col-md-8 col-xs-12">
 	    	<div class = "thumbnail">
 	    		<div class ="fixed">
 			    	<div class = "h3"> Popular Departments </div>
@@ -22,8 +22,8 @@
 	    		<div class ="row">
 	    			<div class = "scrollable_Y">
 	    				@foreach($popular_departments as $department)
-			    			<div class = "col-xs-4">
-			    				<a href = "/{{$department->slug_name}}">
+			    			<div class = "col-md-4 col-xs-12">
+			    				<a href = "{{FollowerHelper::findURL_D($department->id)}}">
 			    					{{$department->name}}
 			    				</a>
 			    			</div>
@@ -40,8 +40,8 @@
 	    		<div class ="row">
 	    			<div class = "scrollable_Y">
 	    				@foreach($new_departments as $department)
-			    			<div class = "col-xs-4">
-			    				<a href = "/{{$department->slug_name}}">
+			    			<div class = "col-md-4 col-xs-12">
+			    				<a href = "{{FollowerHelper::findURL_D($department->id)}}">
 			    					{{$department->name}}
 			    				</a>
 			    			</div>
@@ -54,7 +54,7 @@
 
 	    
 	    	
-	    <div class = "col-md-2"> 
+	    <div class = "col-md-2 col-xs-12">
 
 	    	<ul class ="scrollable list-group">
 				<li class = "list-group-item">

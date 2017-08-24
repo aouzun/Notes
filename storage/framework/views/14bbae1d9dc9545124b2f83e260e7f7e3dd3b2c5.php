@@ -58,9 +58,7 @@
                                             Profile
                                         </a>
 
-                                        <a href="<?php echo e(route('settings')); ?>">
-                                            Settings
-                                        </a>
+
 
                                         <a href="<?php echo e(route('logout')); ?>"
                                             onclick="event.preventDefault();

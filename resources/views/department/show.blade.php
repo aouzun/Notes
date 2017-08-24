@@ -3,14 +3,14 @@
 @section('content')
 
 <div class = "container-fluid">
-		<p> <a href = "/{{$department->slug_name}}"> {{$department->name}} </a> </p>
+		<p> <a href = "{{FollowerHelper::findURL_D($department->id)}}"> {{$department->name}} </a> </p>
 	</div>
 <div class = "container-fluid text-center" >
 	<div class = "row">
 		<div class = " col-md-2"> 
 			<ul class = "scrollable list-group">
 				@foreach ($courses as $course)
-	            	<li class="list-group-item"> <a href="/{{$department->slug_name}}/{{$course->slug_name}}/"> {{$course->name}} </a> </li>
+	            	<li class="list-group-item"> <a href="{{FollowerHelper::findURL_C($course->id)}}"> {{$course->name}} </a> </li>
 	            @endforeach
 			</ul>
 
@@ -79,10 +79,10 @@
 	    			<button class = "btn-link" id="followbutton" onclick = "sendFollowRequest({{FollowerHelper::getUserID()}},1,{{$department->id}});">{{FollowerHelper::checkFollowed(1,FollowerHelper::getUserID(),$department->id)}}</button>
 				</li>
 	    		<li class = "list-group-item">
-					<a href = "/{{$department->slug_name}}/edit">Edit</a>
+					<a href = "{{FollowerHelper::findURL_D($department->id)}}edit">Edit</a>
 				</li>
 				<li class = "list-group-item">
-					<a href = "/{{$department->slug_name}}/add_course"> Add Course </a>
+					<a href = "{{FollowerHelper::findURL_D($department->id)}}add_course"> Add Course </a>
 				</li>
 			</ul>
 		</div>	

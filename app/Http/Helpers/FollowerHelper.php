@@ -15,7 +15,7 @@ class FollowerHelper{
 	}
 
 	public static function findURL_D($department_id){
-		$path = '/';
+		$path = '/d/' . $department_id . '-';
 		$department = Department::find($department_id);
 		$path = $path . $department->slug_name . '/';
 
@@ -25,7 +25,9 @@ class FollowerHelper{
 	public static function findURL_C($course_id){
 		$course = Course::find($course_id);
 		if($course){
-			$path = self::findURL_D($course->department_id) . $course->slug_name . '/';
+			//$path = self::findURL_D($course->department_id) . $course->slug_name . '/';
+            $path = '/c/' . $course_id . '-';
+            $path .= $course->slug_name . '/';
 			return $path;
 		}
 		return '/';
@@ -34,9 +36,35 @@ class FollowerHelper{
 
 	public static function findURL_S($section_id){
 		$section = Section::find($section_id);
-		$path = self::findURL_C($section->course_id) . $section->slug_name . '/';
+		//$path = self::findURL_C($section->course_id) . $section->slug_name . '/';
+        $path = '/s/'. $section_id . '-' . $section->slug_name . '/';
 		return $path;
 	}
+
+	public static function findPATH_D($department){
+	    $department = Department::find($department);
+	    $path = '/';
+	    $path .= $department->slug_name . '/';
+	    return $path;
+    }
+
+    public static function findPATH_C($course){
+        $course = Course::find($course);
+
+        $path = self::findPATH_D($course->department_id);
+	    $path .= $course->slug_name . '/';
+	    return $path;
+    }
+
+    public static function findPATH_S($section){
+        $section = Section::find($section);
+
+        $path = self::findPATH_C($section->course_id);
+        $path .= $section->slug_name . '/';
+        return $path;
+    }
+
+
 
 	public static function findPopularDepartments(){
 		$type = 1;
@@ -107,7 +135,7 @@ class FollowerHelper{
 
 
 	public static function getProfileURL($user_id){
-		return '/profile/' . $user_id;
+		return '/user/' . $user_id;
 	}
 }
 

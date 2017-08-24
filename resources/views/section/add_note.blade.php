@@ -50,11 +50,11 @@
 						</label>
 					</div>
 					<div class = "col-md-4">
-						<a class = "btn btn-default btn-block" href = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}"> Back </a>
+						<a class = "btn btn-default btn-block" href = "{{FollowerHelper::findURL_S($section->id)}}"> Back </a>
 					</div>
 				</div>
-			</div>	
-			<div class = "col-md-2"> </div>	
+			</div>
+			<div class = "col-md-2"> </div>
 			<div class = "row col-md-5 row" id = "filesBlock" style = "overflow: auto; max-height: 50vh;">
 				<div class="form-group">
 					<label for="files">Files: </label>

@@ -57,7 +57,7 @@ class SectionController extends Controller
         self::addNotes($id,$files);
         Logger::handle($request,$id);
 
-        return redirect('/' . $department . '/' . $course . '/' . $section->slug_name);
+        return redirect(FollowerHelper::findURL_S($id));
         
     }
 
@@ -97,11 +97,12 @@ class SectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($_department,$_course)
+    public function create(Course $course, $name)
     {
-        $department = Department::findByName($_department);
-        $course = Course::findByName($department->id,$_course);
-        
+
+        $department = Department::find($course->department_id);
+
+
         return view('section.add',compact(['department','course']));
     }
 
@@ -112,9 +113,15 @@ class SectionController extends Controller
      * @param  \Notes\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function show($_department,$_course,$_section)
+    public function show(Section $section,$name)
     {
-        $res = self::check($_department,$_course,$_section);
+        $course = Course::find($section->course_id);
+        $department = Department::find($course->department_id);
+
+        $res = array();
+        $res['section'] = $section;
+        $res['course'] = $course;
+        $res['department'] = $department;
 
         if(!$res){
             $error = "Whoops";
@@ -123,7 +130,7 @@ class SectionController extends Controller
 
         // Find path to load images
         $section = $res['section'];
-        $file_path = FollowerHelper::findURL_S($section->id);
+        $file_path = FollowerHelper::findPATH_S($section->id);
 
         $notes = Note::findBySection($section->id);
         $notes_path = [];
@@ -145,12 +152,14 @@ class SectionController extends Controller
      * @param  \Notes\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function edit($_department,$_course,$_section)
+    public function edit(Section $section,$name)
     {
-        $department = Department::findByName($_department);
-        
-        $course = Course::findByName($department->id,$_course);
-        $section = Section::findByName($course->id,$_section);
+        $course = Course::find($section->course_id);
+        $department = Department::find($course->department_id);
+
+
+
+
         return view('section.edit',compact(['department','course','section']));
     }
 
@@ -161,8 +170,9 @@ class SectionController extends Controller
      * @param  \Notes\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$_department,$_course,$_section)
+    public function update(Request $request,Section $section,$name)
     {
+
         $new_slug = $request->input('slug_name');
         $old_slug = $request->input('old_slug');
 
@@ -196,7 +206,7 @@ class SectionController extends Controller
 
         Logger::handle($request,$section->id);
 
-        return redirect($new_path);
+        return redirect(FollowerHelper::findURL_S($section->id));
 
     }
 
@@ -268,11 +278,6 @@ class SectionController extends Controller
 
         return compact(['department','course','section']);
 
-    }
-
-    public function add_video($_department,$_course,$_section){
-
-        
     }
 
 }

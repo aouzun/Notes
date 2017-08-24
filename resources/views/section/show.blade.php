@@ -4,11 +4,11 @@
 
 
 <div class = "container-fluid">
-	<p> <a href = "/{{$department->slug_name}}"> {{$department->name}} </a>
+	<p> <a href = "{{FollowerHelper::findURL_D($department->id)}}"> {{$department->name}} </a>
 		&gt
-		<a href = "/{{$department->slug_name}}/{{$course->slug_name}}"> {{$course->name}} </a>
+		<a href = "{{FollowerHelper::findURL_C($course->id)}}"> {{$course->name}} </a>
 		&gt
-		<a href = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}"> {{$section->name}} </a>
+		<a href = "{{FollowerHelper::findURL_S($section->id)}}"> {{$section->name}} </a>
 	 </p>
 </div>
 
@@ -53,10 +53,10 @@
 					<button class = "btn-link" id="followbutton" onclick = "sendFollowRequest({{FollowerHelper::getUserID()}},3,{{$section->id}});">{{FollowerHelper::checkFollowed(3,FollowerHelper::getUserID(),$section->id)}}</button>
 				</li>
 				<li class = "list-group-item">
-					<a href = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}/edit"> Edit </a>
+					<a href = "{{FollowerHelper::findURL_S($section->id)}}edit"> Edit </a>
 				</li>
 				<li class = "list-group-item">
-					<a href = "/{{$department->slug_name}}/{{$course->slug_name}}/{{$section->slug_name}}/add_note"> Add Note </a>
+					<a href = "{{FollowerHelper::findURL_S($section->id)}}add_note"> Add Note </a>
 				</li>
 			</ul>
 		</div>
