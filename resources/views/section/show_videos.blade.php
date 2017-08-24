@@ -6,9 +6,9 @@
 <div class = "container-fluid">
 	<p> <a href = "{{FollowerHelper::findURL_D($department->id)}}"> {{$department->name}} </a>
 		&gt
-		<a href = "{{FollowerHelper::findURL_D($course->id)}}"> {{$course->name}} </a>
+		<a href = "{{FollowerHelper::findURL_C($course->id)}}"> {{$course->name}} </a>
 		&gt
-		<a href = "{{FollowerHelper::findURL_D($section->id)}}"> {{$section->name}} </a>
+		<a href = "{{FollowerHelper::findURL_S($section->id)}}"> {{$section->name}} </a>
 	 </p>
 </div>
 

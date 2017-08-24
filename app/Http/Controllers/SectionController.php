@@ -232,16 +232,18 @@ class SectionController extends Controller
     }
 
 
-    public function show_videos($_department,$_course,$_section){
-        $res = self::check($_department,$_course,$_section);
+    public function show_videos(Section $section,$name){
+        $res = array();
+        $course = Course::find($section->course_id);
+        $department = Department::find($course->department_id);
 
+        $res['department'] = $department;
+        $res['course'] = $course;
+        $res['section'] = $section;
         if(!$res){
             $error = "Whoops";
             return view('error',compact('error'));
         }
-
-        $section = $res['section'];
-
 
         $videos = Video::findBySection($section->id);
 

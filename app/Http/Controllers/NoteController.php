@@ -8,7 +8,9 @@ use Notes\Department;
 use Notes\Course;
 use Notes\Section;
 use Notes\Http\Controllers\SectionController;
+use FollowerHelper;
 class NoteController extends Controller
+
 {
     /**
      * Display a listing of the resource.

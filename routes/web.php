@@ -66,8 +66,3 @@ Route::post('/s/{section}-{name}/edit','SectionController@update')->middleware('
 Route::post('/s/{section}-{name}/add_note','NoteController@store')->middleware('auth');
 Route::post('/s/{section}-{name}/add_video','VideoController@store')->middleware('auth');
 
-
-Route::get('*',function(){
-    $error = "asd";
-    return view('error',compact('error'));
-});
